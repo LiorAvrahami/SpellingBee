@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<tkinter.Frame xmlns:attr="http://www.hoversetformationstudio.com/styles/" xmlns:layout="http://www.hoversetformationstudio.com/layouts/" name="frame_1" attr:layout="place" layout:width="400" layout:height="800" layout:x="30" layout:y="30">
+  <meta major="5" minor="0" name="version"/>
+</tkinter.Frame>
