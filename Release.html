@@ -5,9 +5,32 @@
     <title>Title</title>
 </head>
 <body>
+<script src="Logic/words.js"></script>
 <link rel="stylesheet" href="style.css">
-<script src="scripts.js"></script>
-<div id="frame_1" style="position: absolute; left: 7.500vw; top: 3.750vh; width: 100.000vw; height: 100.000vh"/>
+<div id="svg5">
+  <div class="tab_bar">
+    <button class="tab_button" onclick="svg5_frame0_Btn_Clicked()">Explore</button>
+    <button class="tab_button" onclick="svg5_frame1_Btn_Clicked()">Test</button>
+  </div>
+  <div id="svg5_frame0">
+    <button id="BtnSpeak_E" onclick="OnClickBtnSpeak_E()" style="position: absolute; left: 54.508vw; top: 49.077vh; width: 44.097vw; height: 22.226vh">Speak</button>
+    <button id="BtnSubmit_E" onclick="OnClickBtnSubmit_E()" style="position: absolute; left: 1.642vw; top: 48.677vh; width: 44.097vw; height: 22.226vh">Submit</button>
+    <button id="BtnAddToTest_E" onclick="OnClickBtnAddToTest_E()" style="position: absolute; left: 2.800vw; top: 75.650vh; width: 94.109vw; height: 12.458vh">Add To Test</button>
+    <input id="InputGuess_E" style="position: absolute; left: 17.032vw; top: 15.258vh; width: 63.871vw; height: 7.629vh"></input>
+    <div id="LblCorrectWordText_E" style="position: absolute; left: 17.375vw; top: 25.010vh; width: 62.830vw; height: 7.463vh"></div>
+    <script src="Logic\Explore.js"> </script>
+  </div>
+  <div id="svg5_frame1">
+    <button id="BtnSpeak_T" onclick="OnClickBtnSpeak_T()" style="position: absolute; left: 54.165vw; top: 59.252vh; width: 44.097vw; height: 22.226vh">Speak</button>
+    <button id="BtnSubmit_T" onclick="OnClickBtnSubmit_T()" style="position: absolute; left: 1.299vw; top: 58.853vh; width: 44.097vw; height: 22.226vh">Submit</button>
+    <button id="BtnClearTest_T" onclick="OnClickBtnClearTest_T()" style="position: absolute; left: 4.145vw; top: 91.283vh; width: 12.669vw; height: 6.157vh">Clear Test</button>
+    <input id="InputGuess_T" style="position: absolute; left: 16.689vw; top: 25.434vh; width: 63.871vw; height: 7.629vh"></input>
+    <div id="LblCorrectWordText_T" style="position: absolute; left: 17.032vw; top: 35.186vh; width: 62.830vw; height: 7.463vh"></div>
+    <div id="LblWordNumber_T" style="position: absolute; left: 36.339vw; top: 9.210vh; width: 24.548vw; height: 7.484vh"></div>
+    <script src="Logic\Test.js"> </script>
+  </div>
+  <script src="GUI\TabViewScripts\svg5.js"> </script>
+</div>
 
 </body>
 </html>

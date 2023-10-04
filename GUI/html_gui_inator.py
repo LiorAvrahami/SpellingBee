@@ -8,22 +8,19 @@ import re
 
 RESOURCE_PATH_PREFIX = ""
 
-# remove "tkinter." and "ttk." prefixes if exists.
-remove_prefix = re.compile("(?:tkinter\.)?(?:ttk\.)?(.*)")
-
 EMPTY_TEXT = ""
-
 
 def run(path_from_root):
     global RESOURCE_PATH_PREFIX
     RESOURCE_PATH_PREFIX = path_from_root
 
-    with open(set_path_to_from_root("a.xml"), "r") as f:
+    with open(set_path_to_from_root("AppGui.svg"), "r") as f:
         xml_text = f.read()
 
-    xml_text = xml_text.replace("attr:", "").replace("layout:", "")
-
     r: etree._Element = etree.fromstring(bytes(xml_text, "utf-8"))
+
+    r = remove_namespaces(r)
+
     # r = t.getroot()
     root_rect = get_xywh(r)
     root_size = root_rect[2], root_rect[3]
@@ -34,6 +31,21 @@ def run(path_from_root):
         f.write(etree.tostring(new_r, pretty_print=True))
 
 
+def remove_namespaces(root):
+    # Iterate through all XML elements
+    for elem in root.getiterator():
+        # Remove a namespace URI in the element's name
+        elem.tag = etree.QName(elem).localname
+        for attrib_name in elem.attrib:
+            temp = elem.attrib[attrib_name]
+            elem.attrib.pop(attrib_name)
+            elem.attrib[etree.QName(attrib_name).localname] = temp
+
+    # Remove unused namespace declarations
+    etree.cleanup_namespaces(root)
+
+    return root
+
 def convert_element_recursive(old_element: etree._Element, root_size):
     new_element: etree._Element = etree.Element("NOT_FILLED_IN")
     # add children
@@ -42,47 +54,66 @@ def convert_element_recursive(old_element: etree._Element, root_size):
         if a is not None:
             new_element.append(a)
 
-    new_element.set("id", old_element.attrib["name"])
+    id = old_element.attrib["id"]
+    tag = old_element.tag
 
-    tag = remove_prefix.match(old_element.tag).group(1).lower()
-    if tag == "frame":
+    new_element.set("id", id)
+
+    if match_tag(tag,id,"Group"):
         new_element.tag = "div"
         set_position_and_size(new_element, old_element, root_size)
         add_text_if_exists(new_element, old_element)
-    elif tag == "button":
+        make_logic_file(new_element)
+    elif match_tag(tag,id,"Btn"):
         new_element.tag = "button"
+        new_element.set("onclick", "OnClick{}()".format(new_element.attrib["id"]))
         set_position_and_size(new_element, old_element, root_size)
         add_text_if_exists(new_element, old_element)
-    elif tag == "label":
-        if "image" in old_element.attrib:
-            new_element.tag = "img"
-            set_position_and_size(new_element, old_element, root_size, is_max_size=True)
-            new_element.set("src", set_path_to_from_root(old_element.attrib["image"]))
-        else:
-            new_element.tag = "label"
-            set_position_and_size(new_element, old_element, root_size)
-            new_element.text = old_element.attrib["text"]
-            add_text_if_exists(new_element, old_element)
-    elif tag == "entry":
+    elif match_tag(tag,id,"Lbl"):
+        new_element.tag = "div"
+        set_position_and_size(new_element, old_element, root_size)
+        add_text_if_exists(new_element, old_element)
+    elif match_tag(tag, id, "Img"):
+        new_element.tag = "img"
+        set_position_and_size(new_element, old_element, root_size, is_max_size=True)
+        new_element.set("src", set_path_to_from_root(old_element.attrib["image"]))
+    elif match_tag(tag, id, "Input"):
         new_element.tag = "input"
         set_position_and_size(new_element, old_element, root_size)
         add_text_if_exists(new_element, old_element)
-    elif tag == "notebook":
+    elif match_tag(tag, id, "TabView"):
         new_element.tag = "div"
         set_position_and_size(new_element, old_element, root_size)
         make_tab_view(new_element)
     else:
+        if tag not in ["defs","namedview"]:
+            print(f"Missed element with unrecognized tag or id. please use the correct id prefixes.\n"
+                  f" element tag: {tag}\n"
+                  f" element id: {id}")
         return None
 
     return new_element
 
+def match_tag(tag,id,expected_prefix):
+    # return true if type_name is prefix of id
+    if expected_prefix is not None and id[:len(expected_prefix)] == expected_prefix:
+        return True
+    if tag == "text" and expected_prefix == "Lbl":
+        return True
+    if tag == "g" and expected_prefix == "Group":
+        return True
+    if tag == "svg" and expected_prefix == "TabView":
+        return True
+    return False
 
 def add_text_if_exists(new_element, old_element):
     if "text" in old_element.attrib:
         new_element.text = old_element.attrib["text"]
+    elif "label" in old_element.attrib:
+        new_element.text = old_element.attrib["label"]
     elif len(old_element) == 0:
-        # if no text and no children, then the tag still shouldn't close itself, we know this because this function should only be called on non-self closing
-        # brackets.
+        # if no text and no children, then the tag still shouldn't close itself,
+        # we know this because this function should only be called on non-self closing brackets.
         new_element.text = EMPTY_TEXT
 
 
@@ -111,8 +142,12 @@ def does_have_xywh(element: etree._Element):
 
 
 def get_xywh(element: etree._Element):
-    get = lambda a: element.attrib[a]
-    return float(get("x")), float(get("y")), float(get("width")), float(get("height"))
+    def get(v):
+        try:
+            return float(element.attrib[v].replace("mm",""))
+        except:
+            return None
+    return get("x"), get("y"), get("width"), get("height")
 
 
 def make_tab_view(new_base: etree._Element):
@@ -142,7 +177,6 @@ def make_tab_view(new_base: etree._Element):
 
     new_base.insert(0, buttons_row)
 
-
 def make_tab_view_script_file(base: etree._Element) -> str:
     """
     :param base: the div element at the root of the tab view
@@ -169,6 +203,47 @@ def make_tab_view_script_file(base: etree._Element) -> str:
 
     return file_name
 
+def make_logic_file(div_base: etree._Element) -> str:
+    logic_folder_name = make_logic_folder_if_not_exists()
+    logic_file_name = os.path.join(logic_folder_name, div_base.text+".js")
+    if os.path.exists(logic_file_name):
+        with open(logic_file_name,"r") as f:
+            logic_file_text = f.read()
+    else:
+        logic_file_text = ""
+
+    # give names to elements
+    elements_start_text = "// ---- define elements ----"
+    elements_end_text = "// ---- end of elements ----"
+    elements_text = ""
+    elements_text += elements_start_text + "\n"
+    for elem in div_base.getiterator():
+        elements_text += "let {} = document.getElementById(\"{}\");\n".format(elem.attrib["id"],elem.attrib["id"])
+    elements_text += elements_end_text + "\n\n"
+    logic_file_text = elements_text + re.sub(elements_start_text + ".*?" + elements_end_text + "\n*","",logic_file_text,flags=re.DOTALL)
+    # define onclick for buttons
+    for elem in div_base.getiterator():
+        if "onclick" in elem.attrib:
+            f_name = elem.attrib["onclick"]
+            if f_name not in logic_file_text:
+                logic_file_text += "\nfunction " + f_name + "{\n\n}\n"
+
+    with open(logic_file_name,"w+") as f:
+        f.write(logic_file_text)
+
+    script_element: etree._Element = etree.Element("script")
+    script_element.set("src", logic_file_name)
+    script_element.text = " "
+    div_base.insert(len(div_base),script_element)
+
+    return logic_file_name
+
+def make_logic_folder_if_not_exists() -> str:
+    logic_folder_name = "Logic"
+    if not os.path.exists(logic_folder_name):
+        os.mkdir(logic_folder_name)
+    return logic_folder_name
 
 def set_path_to_from_root(local_path):
     return os.path.join(RESOURCE_PATH_PREFIX, local_path)
+

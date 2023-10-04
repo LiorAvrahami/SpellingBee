@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="200mm"
+   height="400mm"
+   viewBox="0 0 200 400"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="AppGui.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.37282197"
+     inkscape:cx="-324.55169"
+     inkscape:cy="785.89789"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Explore"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:none">
+    <rect
+       style="fill:#e6e6e6;stroke:#000000;stroke-width:0.4264"
+       id="BtnSpeak_E"
+       width="88.193024"
+       height="88.902695"
+       x="109.01639"
+       y="196.3067"
+       text="Speak" />
+    <rect
+       style="display:inline;fill:#e6e6e6;stroke:#000000;stroke-width:0.4264"
+       id="BtnSubmit_E"
+       width="88.193024"
+       height="88.902695"
+       x="3.283731"
+       y="194.70993"
+       text="Submit" />
+    <rect
+       style="display:inline;fill:#e6e6e6;stroke:#000000;stroke-width:0.466359"
+       id="BtnAddToTest_E"
+       width="188.21758"
+       height="49.830479"
+       x="5.6008859"
+       y="302.60089"
+       text="Add To Test" />
+    <rect
+       style="fill:#e6e6e6;stroke:#000000;stroke-width:0.264583"
+       id="InputGuess_E"
+       width="127.74194"
+       height="30.516129"
+       x="34.064514"
+       y="61.032246" />
+    <rect
+       style="display:inline;fill:#e6e6e6;stroke:#000000;stroke-width:0.21772"
+       id="LblCorrectWordText_E"
+       width="125.65976"
+       height="29.853308"
+       x="34.750763"
+       y="100.04109"
+       ry="0" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Test"
+     style="display:inline">
+    <rect
+       style="display:inline;fill:#e6e6e6;stroke:#000000;stroke-width:0.4264"
+       id="BtnSpeak_T"
+       width="88.193024"
+       height="88.902695"
+       x="108.3299"
+       y="237.00894"
+       text="Speak" />
+    <rect
+       style="display:inline;fill:#e6e6e6;stroke:#000000;stroke-width:0.4264"
+       id="BtnSubmit_T"
+       width="88.193024"
+       height="88.902695"
+       x="2.5972316"
+       y="235.41217"
+       text="Submit"
+       inkscape:label="BtnSubmit_T" />
+    <rect
+       style="display:inline;fill:#e6e6e6;stroke:#000000;stroke-width:0.120294"
+       id="BtnClearTest_T"
+       width="25.337833"
+       height="24.628157"
+       x="8.2897568"
+       y="365.13019"
+       text="Clear Test" />
+    <rect
+       style="display:inline;fill:#e6e6e6;stroke:#000000;stroke-width:0.264583"
+       id="InputGuess_T"
+       width="127.74194"
+       height="30.516129"
+       x="33.378017"
+       y="101.73454" />
+    <rect
+       style="display:inline;fill:#e6e6e6;stroke:#000000;stroke-width:0.21772"
+       id="LblCorrectWordText_T"
+       width="125.65976"
+       height="29.853308"
+       x="34.064266"
+       y="140.74338"
+       ry="0" />
+    <rect
+       style="display:inline;fill:#e6e6e6;stroke:#000000;stroke-width:0.136275"
+       id="LblWordNumber_T"
+       width="49.096043"
+       height="29.934753"
+       x="72.67778"
+       y="36.839081"
+       ry="0" />
+  </g>
+</svg>

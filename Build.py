@@ -47,6 +47,6 @@ def compile_file_recursive(file_name, include_tree_branch):
 
 if __name__ == "__main__":
     GUI.html_gui_inator.run("GUI")
-    compiled_html = compile_file("wrapper.html")
+    compiled_html = compile_file("index.html")
     with open("Release.html", "w+") as f:
         f.write(compiled_html)
