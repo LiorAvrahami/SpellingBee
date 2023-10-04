@@ -8,7 +8,7 @@ let LblCorrectWordText_E = document.getElementById("LblCorrectWordText_E");
 // ---- end of elements ----
 
 function OnClickBtnSpeak_E(){
-    LblCorrectWordText_E.innerHTML = pick_random_word_from_all_words();
+    speak(pick_random_word_from_all_words());
 }
 
 function OnClickBtnSubmit_E(){
