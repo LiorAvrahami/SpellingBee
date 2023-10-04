@@ -7,14 +7,14 @@ let InputGuess_E = document.getElementById("InputGuess_E");
 let LblCorrectWordText_E = document.getElementById("LblCorrectWordText_E");
 // ---- end of elements ----
 
-function OnClickBtnSpeak_E(){
-    speak(pick_random_word_from_all_words());
+function OnClickBtnSpeak_E() {
+    speak("hello");
 }
 
-function OnClickBtnSubmit_E(){
+function OnClickBtnSubmit_E() {
 
 }
 
-function OnClickBtnAddToTest_E(){
+function OnClickBtnAddToTest_E() {
 
 }
