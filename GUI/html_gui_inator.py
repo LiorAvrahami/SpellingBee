@@ -56,13 +56,15 @@ def convert_element_recursive(old_element: etree._Element, root_size):
 
     id = old_element.attrib["id"]
     tag = old_element.tag
-
+    
     new_element.set("id", id)
 
     if match_tag(tag,id,"Group"):
         new_element.tag = "div"
         set_position_and_size(new_element, old_element, root_size)
         add_text_if_exists(new_element, old_element)
+        new_id = new_element.text.title().replace(" ","_")
+        new_element.set("id", f"_{new_id}_Tab")
         make_logic_file(new_element)
     elif match_tag(tag,id,"Btn"):
         new_element.tag = "button"
@@ -158,8 +160,6 @@ def make_tab_view(new_base: etree._Element):
     btn_children = []
     for child_idx in range(len(new_base)):
         child: etree._Element = new_base[child_idx]
-        child.set("id", new_base.attrib["id"] + f"_frame{child_idx}")
-
         new_button = etree.Element("button")
         new_button.set("class", "tab_button")
         on_click_func_name = child.attrib["id"] + "_Btn_Clicked"
@@ -204,6 +204,8 @@ def make_tab_view_script_file(base: etree._Element) -> str:
     return file_name
 
 def make_logic_file(div_base: etree._Element) -> str:
+    dib_base_id = div_base.attrib["id"]
+    
     logic_folder_name = make_logic_folder_if_not_exists()
     logic_file_name = os.path.join(logic_folder_name, div_base.text+".js")
     if os.path.exists(logic_file_name):
@@ -221,6 +223,10 @@ def make_logic_file(div_base: etree._Element) -> str:
         elements_text += "let {} = document.getElementById(\"{}\");\n".format(elem.attrib["id"],elem.attrib["id"])
     elements_text += elements_end_text + "\n\n"
     logic_file_text = elements_text + re.sub(elements_start_text + ".*?" + elements_end_text + "\n*","",logic_file_text,flags=re.DOTALL)
+    # define onload
+    f_name = f"On{dib_base_id}_Open()"
+    if f_name not in logic_file_text:
+        logic_file_text += "\nfunction " + f_name + "{\n\n}\n"
     # define onclick for buttons
     for elem in div_base.getiterator():
         if "onclick" in elem.attrib:

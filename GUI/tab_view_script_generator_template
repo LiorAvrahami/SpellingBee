@@ -3,6 +3,6 @@ function #Id#_Change_Tab(tab_id_to_open){
 	document.getElementById(tab_id_to_open).style.display = 'block';
 }
 
-function #TabId#_Btn_Clicked(){ #Id#_Change_Tab("#TabId#"); }
+function #TabId#_Btn_Clicked(){ #Id#_Change_Tab("#TabId#"); On#TabId#_Open();}
 
 #TabId#_Btn_Clicked();

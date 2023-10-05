@@ -1,21 +1,21 @@
 function svg5_Change_Tab(tab_id_to_open){
-	document.getElementById("svg5_frame0").style.display = 'none';
+	document.getElementById("_Explore_Tab").style.display = 'none';
 
 
-	document.getElementById("svg5_frame1").style.display = 'none';
+	document.getElementById("_Test_Tab").style.display = 'none';
 
 
 	document.getElementById(tab_id_to_open).style.display = 'block';
 }
 
-function svg5_frame0_Btn_Clicked(){ svg5_Change_Tab("svg5_frame0"); }
+function _Explore_Tab_Btn_Clicked(){ svg5_Change_Tab("_Explore_Tab"); On_Explore_Tab_Open();}
 
 
-function svg5_frame1_Btn_Clicked(){ svg5_Change_Tab("svg5_frame1"); }
+function _Test_Tab_Btn_Clicked(){ svg5_Change_Tab("_Test_Tab"); On_Test_Tab_Open();}
 
 
 
-svg5_frame0_Btn_Clicked();
+_Explore_Tab_Btn_Clicked();
 
-svg5_frame1_Btn_Clicked();
+_Test_Tab_Btn_Clicked();
 
